@@ -147,5 +147,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - [@lekksz](https://twitter.com/lekksz)
+Afolabi Oluwasegun - [@lekksz](https://twitter.com/lekksz)
 Project Link: [https://github.com/lekkss/fintech](https://github.com/lekkss/fintech)
