@@ -1,10 +1,15 @@
 package com.lekkss.fintech.entity;
 
-import jakarta.persistence.*;
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "wallets")
@@ -12,21 +17,34 @@ import java.math.BigDecimal;
 @Setter
 public class Wallet extends BaseEntity {
 
-    @Column(nullable = false)
-    private String currency;
+    @Column(nullable = false, unique = true)
+    private String walletNumber;
 
     @Column(nullable = false)
-    private BigDecimal balance;
+    private String name;
+
+    @Column(nullable = false)
+    private BigDecimal amount = BigDecimal.ZERO;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id", nullable = false)
+    private Currency currency;
+
+    @Column(nullable = false)
+    private boolean active = true;
+
+    @Column(nullable = false)
+    private boolean main = false;
+
+    @Column(nullable = false)
+    private String type = "client";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "wallet_number", unique = true, nullable = false)
-    private String walletNumber;
-
     public Wallet() {
         super();
-        this.balance = BigDecimal.ZERO;
+        this.amount = BigDecimal.ZERO;
     }
 }
