@@ -1,5 +1,6 @@
 package com.lekkss.fintech.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lekkss.fintech.entity.enums.IdType;
 import com.lekkss.fintech.entity.enums.KycStatus;
 
@@ -50,5 +51,6 @@ public class KycDetails extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference(value = "user-kyc")
     private User user;
 }

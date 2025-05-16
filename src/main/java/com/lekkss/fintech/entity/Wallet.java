@@ -2,6 +2,8 @@ package com.lekkss.fintech.entity;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,6 +42,7 @@ public class Wallet extends BaseEntity {
     private String type = "client";
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference(value = "user-wallet")
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

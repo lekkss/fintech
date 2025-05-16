@@ -9,6 +9,7 @@ A robust Spring Boot-based fintech application that provides secure financial se
 - 📍 Address Management
 - 📝 KYC Verification
 - 💳 Wallet Management
+- 💱 Currency Management
 - 🔒 Transaction PIN Security
 - ✉️ Email Verification
 
@@ -18,7 +19,7 @@ A robust Spring Boot-based fintech application that provides secure financial se
 - Spring Boot 3.x
 - Spring Security
 - JWT Authentication
-- PostgreSQL
+- MySQL 8
 - JPA/Hibernate
 - Maven
 - Lombok
@@ -28,7 +29,7 @@ A robust Spring Boot-based fintech application that provides secure financial se
 
 - JDK 17 or higher
 - Maven 3.6 or higher
-- PostgreSQL 12 or higher
+- MySQL 8 or higher
 - IDE (IntelliJ IDEA recommended)
 
 ## Getting Started
@@ -42,8 +43,8 @@ cd fintech
 
 2. Configure the database:
 
-- Create a PostgreSQL database
-- Update `application.properties` with your database credentials
+- Create a MySQL database
+- Update `application.yml` with your database credentials
 
 3. Build the project:
 
@@ -66,6 +67,7 @@ The application will start on `http://localhost:8080`
 - `POST /api/v1/auth/register` - Register a new user
 - `POST /api/v1/auth/login` - User login
 - `POST /api/v1/auth/verify-email` - Verify user email
+- `GET /api/v1/auth/me` - Get authenticated user details
 
 ### User Management
 
@@ -84,13 +86,23 @@ The application will start on `http://localhost:8080`
 
 - `POST /api/v1/kyc` - Submit KYC details
 - `GET /api/v1/kyc` - Get KYC status
-- `PUT /api/v1/kyc` - Update KYC details
+- `PUT /api/v1/kyc/status` - Update KYC status (ADMIN only)
+- `GET /api/v1/kyc/{userId}` - Get KYC details by user ID
 
 ### Wallet Management
 
 - `POST /api/v1/wallets` - Create wallet
 - `GET /api/v1/wallets` - Get user wallets
+- `GET /api/v1/wallets/{userId}` - Get wallet by user ID
 - `POST /api/v1/wallets/transfer` - Transfer funds
+
+### Currency Management
+
+- `POST /api/v1/currencies` - Create new currency
+- `GET /api/v1/currencies` - Get all currencies
+- `GET /api/v1/currencies/{id}` - Get currency by ID
+- `PUT /api/v1/currencies/{id}` - Update currency
+- `DELETE /api/v1/currencies/{id}` - Delete currency
 
 ## Security Features
 
@@ -100,6 +112,7 @@ The application will start on `http://localhost:8080`
 - Email verification
 - KYC verification
 - Role-based access control
+- Environment variable configuration
 
 ## Data Models
 
@@ -125,13 +138,57 @@ The application will start on `http://localhost:8080`
 - Date of Birth
 - ID Issuing Country
 - ID Expiry Date
-- KYC Status
+- KYC Status (PENDING, APPROVED, REJECTED)
+- ID Image URLs (Front and Back)
 
 ### Wallet
 
-- Balance
+- Wallet Number
+- Name
+- Amount
 - Currency
-- Transaction History
+- Active Status
+- Main Wallet Flag
+- Type (client)
+- User Reference
+
+### Currency
+
+- Code (e.g., USD, EUR, GBP)
+- Name
+- Symbol
+- Decimal Places
+- Active Status
+
+## Environment Variables
+
+The application uses environment variables for sensitive configuration. Create a `.env` file in the project root with the following variables:
+
+```env
+# Database Configuration
+DB_URL=jdbc:mysql://localhost:3306/fintech
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+# Email Configuration
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_email@gmail.com
+MAIL_PASSWORD=your_app_password
+
+# JWT Configuration
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRATION=86400000
+
+# Server Configuration
+SERVER_PORT=8080
+SERVER_CONTEXT_PATH=/api/v1
+
+# App Configuration
+APP_VERIFICATION_URL=http://localhost:8080/api/v1/auth/verify-email
+APP_SECURITY_OTP_EXPIRATION=300
+APP_TRANSACTION_PIN_LENGTH=6
+```
 
 ## Contributing
 
