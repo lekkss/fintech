@@ -57,6 +57,9 @@ public class User extends BaseEntity implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private KycDetails kycDetails;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<DebitCard> debitCards = new HashSet<>();
+
     public User() {
         super();
     }
